@@ -1,6 +1,11 @@
 package com.itmo.blse.model;
 
-public class UserRole {
-    Long id;
-    String name;
+
+import javax.persistence.Table;
+
+@Table
+public enum UserRole {
+    USER,
+    MODERATOR,
+    JUDGE,
 }

@@ -1,13 +1,16 @@
 package com.itmo.blse.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table
-public class User {
-    @Id
-    Long id;
+@Entity
+@Table(name = "users")
+public class User extends Timestamped{
+
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    String username;
+    private UserRole role = UserRole.USER;
 }
+

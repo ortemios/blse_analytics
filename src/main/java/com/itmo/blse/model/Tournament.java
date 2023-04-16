@@ -1,12 +1,22 @@
 package com.itmo.blse.model;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.Date;
 
-public class Tournament {
-    Long id;
-    int maxReferees;
-    String name;
+@Entity
+@Table(name = "tournament")
+public class Tournament extends Timestamped{
 
-    List<Match> matches;
-    List<User> referees;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Date start_date;
+
+    @Column(nullable = false)
+    private int maxJudges;
+
 }
