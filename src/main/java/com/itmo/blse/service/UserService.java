@@ -12,13 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class UserService {
 
-    //@Autowired
-    //HttpServletRequest request;
+    @Autowired
+    HttpServletRequest request;
 
     public User fromContext(){
-        HttpServletRequest request =
-                ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                        .getRequest();
 
         return (User)request.getAttribute("user");
     }

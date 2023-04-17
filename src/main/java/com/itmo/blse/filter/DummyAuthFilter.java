@@ -17,22 +17,29 @@ import java.io.IOException;
 
 @Component
 @Order(1)
-public class DummyAuthFilter extends HttpFilter {
+public class DummyAuthFilter implements Filter {
 
     @Autowired
     UserRepository userRepository;
 
     @Override
-    protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
 
-        Long userId = Long.valueOf(request.getHeader("user-id").trim());
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        Long userId = Long.valueOf(httpRequest.getHeader("user-id").trim());
         User user = userRepository.getUserById(userId);
 
-        try {
-            request.setAttribute("user", user);
+        if (user != null) {
+            httpRequest.setAttribute("user", user);
+            chain.doFilter(request, response);
         }
-        catch (EntityNotFoundException ex){ response.sendError(403, "Invalid user");}
+        else
+            ((HttpServletResponse)response).sendError(403, "Invalid user");
 
-        super.doFilter(request, response, chain);
+
     }
+
 }
