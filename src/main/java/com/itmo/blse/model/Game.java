@@ -21,5 +21,9 @@ public class Game extends Timestamped{
             uniqueConstraints = @UniqueConstraint(columnNames = {"game_id", "judge_id"}))
     private Set<User> judges;
 
+    @ManyToOne
+    @JoinColumn(name = "winner_id")
+    private Team winner;
+
 
 }
