@@ -1,5 +1,6 @@
 package com.itmo.blse.service;
 
+import com.itmo.blse.errors.ValidationError;
 import com.itmo.blse.model.*;
 import com.itmo.blse.repository.GameRepository;
 import com.itmo.blse.repository.GameVoteRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 enum MatchStatus {
@@ -94,15 +96,37 @@ public class GameService {
         }
     }
 
-    public ResponseEntity<?> playMatch(Long id, Long winnerId) {
+    public Match dropMatch(Long id) throws ValidationError {
+        Match match = matchRepository.getMatchById(id);
+        if (match == null) {
+            throw new ValidationError(List.of("Match not found"));
+        }
+        Match next = match.getNextMatch();
+        gameRepository.deleteByMatch(match);
+        while (next != null) {
+            next.setTeam2(null);
+            next.setTeam1(null);
+            gameRepository.deleteByMatch(next);
+            next = next.getNextMatch();
+        }
+        return match;
+    }
+
+    public Match playGame(Long id, Long winnerId) throws ValidationError {
         Match match = matchRepository.getMatchById(id);
         Team winner = teamRepository.getTeamById(winnerId);
-        if (match == null || winner == null || (match.getTeam1() != winner && match.getTeam2() != winner)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
 
+        if (match == null) {
+            throw new ValidationError(List.of("Match not found"));
+        }
+        if (winner == null) {
+            throw new ValidationError(List.of("Winner not found"));
+        }
+        if (match.getTeam1() != winner && match.getTeam2() != winner) {
+            throw new ValidationError(List.of("Winner does not belong to match"));
+        }
         if (updateAndGetMatchStatus(match) != MatchStatus.IN_PROGRESS) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ValidationError(List.of("Can't play while the last game is not approved"));
         }
 
         Game game = new Game();
@@ -110,19 +134,19 @@ public class GameService {
         game.setMatch(match);
         gameRepository.save(game);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(game);
+        return match;
     }
 
-    public ResponseEntity<?> approveGame(Long id, boolean isApproved) {
+    public Game approveGame(Long id, boolean isApproved) throws ValidationError {
         User user = userService.fromContext();
 
         Game game = gameRepository.getGameById(id);
         if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ValidationError(List.of("Game not found"));
         }
         Tournament tournament = game.getMatch().getTournament();
         if (!tournament.getJudges().contains(user)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ValidationError(List.of("User is not a judge"));
         }
 
         GameVote gameVote = new GameVote();
@@ -133,6 +157,6 @@ public class GameService {
 
         updateAndGetMatchStatus(game.getMatch());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(gameVote);
+        return game;
     }
 }

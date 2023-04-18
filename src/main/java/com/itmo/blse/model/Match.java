@@ -30,8 +30,6 @@ public class Match {
     @JoinColumn(name = "team2_id")
     private Team team2;
 
-
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "tournament_id", nullable = false)
@@ -40,5 +38,4 @@ public class Match {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "next_match_id")
     private Match nextMatch;
-
 }

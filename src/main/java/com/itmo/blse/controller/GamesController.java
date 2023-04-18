@@ -3,10 +3,8 @@ package com.itmo.blse.controller;
 import com.itmo.blse.dto.ListTournamentDto;
 import com.itmo.blse.dto.RetrieveTournamentDto;
 import com.itmo.blse.errors.ValidationError;
-import com.itmo.blse.model.Game;
-import com.itmo.blse.model.GameVote;
-import com.itmo.blse.model.Match;
-import com.itmo.blse.model.Tournament;
+import com.itmo.blse.mapper.GameMapper;
+import com.itmo.blse.model.*;
 import com.itmo.blse.repository.GameRepository;
 import com.itmo.blse.repository.GameVoteRepository;
 import com.itmo.blse.repository.MatchRepository;
@@ -30,27 +28,29 @@ import java.util.stream.Collectors;
 public class GamesController {
 
     @Autowired
-    GameRepository gameRepository;
-
-    @Autowired
-    MatchRepository matchRepository;
-
-    @Autowired
     GameService gameService;
 
-    @PostMapping("/play/")
-    public ResponseEntity<?> play(@RequestParam Map<String, Long> body) {
-        return gameService.playMatch(body.get("game_id"), body.get("winner_id"));
+    @Autowired
+    GameMapper gameMapper;
+
+    @PostMapping("/{id}/approve/")
+    public ResponseEntity<?> approve(@PathVariable Long id) {
+        try {
+            Game game = gameService.approveGame(id, true);
+            return ResponseEntity.status(HttpStatus.CREATED).body(gameMapper.toGameDto(game));
+        } catch (ValidationError err) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
+        }
     }
 
-    @PostMapping("/approve/")
-    public ResponseEntity<?> approve(@RequestParam Long id){
-        return gameService.approveGame(id, true);
-    }
-
-    @PostMapping("/disapprove/")
-    public ResponseEntity<?> disapprove(@RequestParam Long id){
-        return gameService.approveGame(id, false);
+    @PostMapping("/{id}/disapprove/")
+    public ResponseEntity<?> disapprove(@PathVariable Long id){
+        try {
+            Game game = gameService.approveGame(id, false);
+            return ResponseEntity.status(HttpStatus.CREATED).body(gameMapper.toGameDto(game));
+        } catch (ValidationError err) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
+        }
     }
 }
 

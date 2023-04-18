@@ -1,7 +1,7 @@
-INSERT INTO users (created, updated, role, username) VALUES
-    (now(), now(), 'USER', 'user1'),
-    (now(), now(), 'USER', 'user2'),
-    (now(), now(), 'USER', 'user3');
+INSERT INTO users (created, updated, username) VALUES
+    (now(), now(), 'user1'),
+    (now(), now(), 'user2'),
+    (now(), now(), 'user3');
 
 INSERT INTO team (created, updated, name) VALUES
     (now(), now(), 'team1'),

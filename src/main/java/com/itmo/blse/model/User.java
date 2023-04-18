@@ -15,9 +15,5 @@ public class User extends Timestamped{
 
     @Column(unique = true, nullable = false)
     private String username;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private UserRole role = UserRole.USER;
 }
 

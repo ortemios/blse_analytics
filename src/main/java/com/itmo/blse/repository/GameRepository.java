@@ -14,4 +14,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     Game getGameById(Long id);
 
     List<Game> getGamesByMatch(Match match);
+
+    void deleteByMatch(Match match);
 }
