@@ -31,11 +31,11 @@ public class MatchesController {
         }
     }
 
-    @PostMapping("/{id}/drop")
+    @PostMapping("/{id}/drop/")
     public ResponseEntity<?> drop(@PathVariable Long id) {
         try {
             Match match = gameService.dropMatch(id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toMatchDto(match));
+            return ResponseEntity.status(HttpStatus.OK).body(mapper.toMatchDto(match));
         } catch (ValidationError err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }
