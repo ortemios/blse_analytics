@@ -38,8 +38,10 @@ public class CreateTournamentDto {
 
     Integer maxGames;
 
+    @JsonIgnore
     List<User> judges;
 
+    @JsonIgnore
     List<Team> teams;
 
 

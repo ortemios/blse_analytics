@@ -15,6 +15,23 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
+@Getter
+@AllArgsConstructor
+class Pair<T> {
+    T first;
+    T second;
+
+    public List<T> toList() {
+        ArrayList<T> list = new ArrayList<>();
+        if (first != null) list.add(first);
+        if (second != null) list.add(second);
+        return list;
+    }
+
+}
+
+
 @Service
 public class MatchesTreeBuilder {
 
