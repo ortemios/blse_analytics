@@ -6,11 +6,10 @@ import com.itmo.blse.errors.ValidationError;
 import com.itmo.blse.model.Team;
 import com.itmo.blse.model.User;
 import com.itmo.blse.repository.TeamRepository;
+import com.itmo.blse.repository.TournamentRepository;
 import com.itmo.blse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.stereotype.Service;;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,13 @@ import java.util.stream.Collectors;
 public class CreateTournamentValidator {
 
     @Autowired
-    @JsonIgnore
     UserRepository userRepository;
+
     @Autowired
-    @JsonIgnore
     TeamRepository teamRepository;
+
+    @Autowired
+    TournamentRepository tournamentRepository;
 
     public void clean(CreateTournamentDto createTournamentDto) throws ValidationError {
         List<User> foundJudges = userRepository.getAllByIdIn(createTournamentDto.getJudgesIds());
@@ -46,6 +47,9 @@ public class CreateTournamentValidator {
 
         if (invalidTeamsIds.size() != 0)
             errors.add(String.format("Teams with ids %s not found", invalidTeamsIds));
+
+        if (tournamentRepository.getTournamentByName(createTournamentDto.getName()) != null)
+            errors.add(String.format("Tournament with name %s already exists", createTournamentDto.getName()));
 
         if (errors.size() != 0) throw new ValidationError(errors);
 

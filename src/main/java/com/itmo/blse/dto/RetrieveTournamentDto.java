@@ -22,6 +22,8 @@ public class RetrieveTournamentDto {
     List<UserDto> judges;
     List<TeamDto> teams;
     List<MatchDto> matches;
+    Double approvalRatio;
+    Integer maxGames;
 
 
 }

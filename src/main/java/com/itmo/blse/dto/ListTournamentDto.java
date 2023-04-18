@@ -15,15 +15,8 @@ public class ListTournamentDto {
     String name;
     Date start_date;
     Integer maxJudges;
-
-    public static ListTournamentDto fromTournament(Tournament tournament){
-        return new ListTournamentDtoBuilder()
-                .id(tournament.getId())
-                .name(tournament.getName())
-                .start_date(tournament.getStartDate())
-                .maxJudges(tournament.getMaxJudges())
-                .build();
-    }
+    Double approvalRatio;
+    Integer maxGames;
 
 
 }

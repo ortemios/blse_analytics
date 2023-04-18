@@ -15,12 +15,4 @@ public class TeamDto {
     Long id;
     String name;
 
-    public static TeamDto fromTeam(Team team){
-        return new TeamDtoBuilder()
-                .id(team.getId())
-                .name(team.getName())
-                .build();
-    }
-
-
 }

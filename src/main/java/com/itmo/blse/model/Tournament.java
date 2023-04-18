@@ -26,10 +26,10 @@ public class Tournament extends Timestamped{
     @Column(nullable = false)
     private int maxJudges;
 
-    @Column
+    @Column(nullable = false)
     private double approvalRatio;
 
-    @Column
+    @Column(nullable = false)
     private int maxGames;
 
     @ManyToMany

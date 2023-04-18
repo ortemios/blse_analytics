@@ -21,25 +21,7 @@ public class MatchDto {
     Long team1Id;
     Long team2Id;
     Long nextMatchId;
-
-    public static MatchDto fromMatch(Match match){
-        Long nextMatchId = null;
-        Long team1Id = null;
-        Long team2Id = null;
-        if (match.getTeam1() != null) team1Id = match.getTeam1().getId();
-        if (match.getTeam2() != null) team2Id = match.getTeam2().getId();
-        if (match.getNextMatch() != null) nextMatchId = match.getNextMatch().getId();
-
-        return MatchDto
-                .builder()
-                .id(match.getId())
-                .team1Id(team1Id)
-                .team2Id(team2Id)
-                .nextMatchId(nextMatchId)
-                .build();
-
-
-    }
+    List<GameDto> games;
 
 
 

@@ -1,6 +1,7 @@
 package com.itmo.blse.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.itmo.blse.model.Team;
 import com.itmo.blse.model.Tournament;
 import com.itmo.blse.model.User;
@@ -22,16 +23,23 @@ import java.util.stream.Collectors;
 @Builder
 public class CreateTournamentDto {
 
+
     String name;
+
     Date startDate;
+
     Integer maxJudges;
+
     List<Long> judgesIds;
+
     List<Long> teamsIds;
-    double approvalRatio;
-    int maxGames;
-    @JsonIgnore
+
+    Double approvalRatio;
+
+    Integer maxGames;
+
     List<User> judges;
-    @JsonIgnore
+
     List<Team> teams;
 
 

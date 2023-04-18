@@ -13,12 +13,4 @@ public class UserDto {
     Long id;
     String username;
 
-    public static UserDto fromUser(User user){
-        return new UserDtoBuilder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .build();
-    }
-
-
 }

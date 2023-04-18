@@ -13,7 +13,9 @@ import java.util.List;
 @Repository
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
 
-    Tournament getTournamentById(@Param("id") Long id);
+    Tournament getTournamentById(Long id);
+
+    Tournament getTournamentByName(String name);
 
 
 
