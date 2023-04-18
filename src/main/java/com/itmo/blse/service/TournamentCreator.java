@@ -28,6 +28,8 @@ public class TournamentCreator {
                 .builder()
                 .name(data.getName())
                 .maxJudges(data.getMaxJudges())
+                .maxGames(data.getMaxGames())
+                .approvalRatio(data.getApprovalRatio())
                 .startDate(data.getStartDate())
                 .judges(data.getJudges())
                 .teams(data.getTeams())

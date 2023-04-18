@@ -7,5 +7,5 @@ import javax.persistence.Table;
 public enum UserRole {
     USER,
     MODERATOR,
-    JUDGE,
+    JUDGE
 }

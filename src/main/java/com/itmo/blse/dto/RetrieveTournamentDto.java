@@ -21,7 +21,7 @@ public class RetrieveTournamentDto {
     Integer maxJudges;
     List<UserDto> judges;
     List<TeamDto> teams;
-    //List<MatchDto> matches;
+    List<MatchDto> matches;
 
 
     public static RetrieveTournamentDto fromTournament(Tournament tournament){
@@ -32,7 +32,7 @@ public class RetrieveTournamentDto {
                 .maxJudges(tournament.getMaxJudges())
                 .judges(tournament.getJudges().stream().map(UserDto::fromUser).collect(Collectors.toList()))
                 .teams(tournament.getTeams().stream().map(TeamDto::fromTeam).collect(Collectors.toList()))
-                //.matches(tournament.getMatches().stream().map(MatchDto::fromMatch).collect(Collectors.toList()))
+                .matches(tournament.getMatches().stream().map(MatchDto::fromMatch).collect(Collectors.toList()))
                 .build();
     }
 

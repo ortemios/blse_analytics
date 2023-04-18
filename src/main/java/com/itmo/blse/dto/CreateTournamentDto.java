@@ -27,6 +27,8 @@ public class CreateTournamentDto {
     Integer maxJudges;
     List<Long> judgesIds;
     List<Long> teamsIds;
+    double approvalRatio;
+    int maxGames;
     @JsonIgnore
     List<User> judges;
     @JsonIgnore

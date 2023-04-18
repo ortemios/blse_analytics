@@ -3,6 +3,8 @@ package com.itmo.blse.model;
 
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -19,15 +21,20 @@ public class Match {
     private Long id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "team1_id")
     private Team team1;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "team2_id")
     private Team team2;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tournament_id", nullable = false )
+
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
     @ManyToOne(cascade = CascadeType.REMOVE)

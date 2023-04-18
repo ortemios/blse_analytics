@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,14 +26,24 @@ public class Tournament extends Timestamped{
     @Column(nullable = false)
     private int maxJudges;
 
-    @ManyToMany
-    List<User> judges;
+    @Column
+    private double approvalRatio;
+
+    @Column
+    private int maxGames;
+
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(name = "tournament",
+            joinColumns = @JoinColumn(name = "tournament_id"),
+            inverseJoinColumns = @JoinColumn(name = "judge_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"tournament_id", "judge_id"}))
+    private List<User> judges;
 
     @ManyToMany
-    List<Team> teams;
+    private List<Team> teams;
 
-    //@OneToMany(mappedBy = "tournament", fetch = FetchType.EAGER)
-    //List<Match> matches;
+    @OneToMany(mappedBy = "tournament", fetch = FetchType.EAGER)
+    private List<Match> matches;
 
 
 }
