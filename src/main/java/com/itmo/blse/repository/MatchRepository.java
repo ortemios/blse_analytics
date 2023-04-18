@@ -1,6 +1,7 @@
 package com.itmo.blse.repository;
 
-import com.itmo.blse.model.User;
+import com.itmo.blse.model.Match;
+import com.itmo.blse.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +9,7 @@ import java.util.List;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface MatchRepository extends JpaRepository<Match, Long> {
 
-    User getUserById(Long id);
-    List<User> getAllByIdIn(List<Long> ids);
+
 }
