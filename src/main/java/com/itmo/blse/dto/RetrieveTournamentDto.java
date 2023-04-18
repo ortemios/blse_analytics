@@ -24,17 +24,4 @@ public class RetrieveTournamentDto {
     List<MatchDto> matches;
 
 
-    public static RetrieveTournamentDto fromTournament(Tournament tournament){
-        return new RetrieveTournamentDtoBuilder()
-                .id(tournament.getId())
-                .name(tournament.getName())
-                .start_date(tournament.getStartDate())
-                .maxJudges(tournament.getMaxJudges())
-                .judges(tournament.getJudges().stream().map(UserDto::fromUser).collect(Collectors.toList()))
-                .teams(tournament.getTeams().stream().map(TeamDto::fromTeam).collect(Collectors.toList()))
-                .matches(tournament.getMatches().stream().map(MatchDto::fromMatch).collect(Collectors.toList()))
-                .build();
-    }
-
-
 }

@@ -32,18 +32,11 @@ public class Tournament extends Timestamped{
     @Column
     private int maxGames;
 
-    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "tournament",
-            joinColumns = @JoinColumn(name = "tournament_id"),
-            inverseJoinColumns = @JoinColumn(name = "judge_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"tournament_id", "judge_id"}))
+    @ManyToMany
     private List<User> judges;
 
     @ManyToMany
     private List<Team> teams;
-
-    @OneToMany(mappedBy = "tournament", fetch = FetchType.EAGER)
-    private List<Match> matches;
 
 
 }

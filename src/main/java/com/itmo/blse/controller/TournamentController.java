@@ -4,7 +4,9 @@ import com.itmo.blse.dto.CreateTournamentDto;
 import com.itmo.blse.dto.ListTournamentDto;
 import com.itmo.blse.dto.RetrieveTournamentDto;
 import com.itmo.blse.errors.ValidationError;
+import com.itmo.blse.mapper.TournamentMapper;
 import com.itmo.blse.model.Tournament;
+import com.itmo.blse.service.MatchService;
 import com.itmo.blse.service.TournamentCreator;
 import com.itmo.blse.service.TournamentReader;
 import com.itmo.blse.validator.CreateTournamentValidator;
@@ -32,6 +34,9 @@ public class TournamentController {
     @Autowired
     TournamentCreator tournamentCreator;
 
+    @Autowired
+    TournamentMapper tournamentMapper;
+
     @GetMapping("/")
     public List<ListTournamentDto> getTournaments() {
         return tournamentReader
@@ -47,7 +52,7 @@ public class TournamentController {
         if (tournament == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return RetrieveTournamentDto.fromTournament(tournament);
+        return tournamentMapper.toRetrieveTournamentDto(tournament);
 
     }
 
@@ -57,7 +62,7 @@ public class TournamentController {
         try {
             createTournamentValidator.clean(createTournamentDto);
             Tournament tournament = tournamentCreator.create(createTournamentDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(RetrieveTournamentDto.fromTournament(tournament));
+            return ResponseEntity.status(HttpStatus.CREATED).body(tournamentMapper.toRetrieveTournamentDto(tournament));
 
         }
         catch (ValidationError err){
