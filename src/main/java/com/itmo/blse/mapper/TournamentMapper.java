@@ -42,7 +42,7 @@ public class TournamentMapper {
         return ListTournamentDto.builder()
                 .id(tournament.getId())
                 .name(tournament.getName())
-                .start_date(tournament.getStartDate())
+                .startDate(tournament.getStartDate())
                 .maxJudges(tournament.getMaxJudges())
                 .approvalRatio(tournament.getApprovalRatio())
                 .maxGames(tournament.getMaxGames())

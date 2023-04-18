@@ -1,5 +1,7 @@
 package com.itmo.blse.controller;
 
+import com.itmo.blse.dto.UserDto;
+import com.itmo.blse.mapper.UserMapper;
 import com.itmo.blse.model.User;
 import com.itmo.blse.repository.UserRepository;
 import com.itmo.blse.service.UserService;
@@ -15,9 +17,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @GetMapping
-    public String me() {
-        return userService.fromContext().getUsername();
+    public UserDto me() {
+        return userMapper.toUserDto(userService.fromContext());
 
     }
 

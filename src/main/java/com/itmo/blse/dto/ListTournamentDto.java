@@ -13,7 +13,7 @@ import java.util.Date;
 public class ListTournamentDto {
     Long id;
     String name;
-    Date start_date;
+    Date startDate;
     Integer maxJudges;
     Double approvalRatio;
     Integer maxGames;
