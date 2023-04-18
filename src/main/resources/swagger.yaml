@@ -78,7 +78,7 @@ paths:
 
   /tournaments/:
     get:
-      description: "get all Tournaments"
+      description: "Get all tournaments"
       produces:
       - "application/json"
       
@@ -97,7 +97,7 @@ paths:
               $ref: "#/definitions/ListTournamentDto"
     
     post:
-      description: "Create new tournament"
+      description: "Create new tournament. 1 <= maxGames, judges.length <= 10, maxGames % 2 == 1"
       produces:
       - "application/json"
       
@@ -268,8 +268,6 @@ definitions:
         type: "string"
       startDate:
         type: "string"
-      maxJudges:
-        type: "string"
       approvalRatio:
         type: "number"
       maxGames:
@@ -324,8 +322,6 @@ definitions:
         type: "string"
       startDate:
         type: "string"
-      maxJudges:
-        type: "string"
       approvalRatio:
         type: "number"
       maxGames:
@@ -351,8 +347,6 @@ definitions:
       name:
         type: "string"
       startDate:
-        type: "string"
-      maxJudges:
         type: "string"
       approvalRatio:
         type: "number"

@@ -28,8 +28,6 @@ public class CreateTournamentDto {
 
     Date startDate;
 
-    Integer maxJudges;
-
     List<Long> judgesIds;
 
     List<Long> teamsIds;

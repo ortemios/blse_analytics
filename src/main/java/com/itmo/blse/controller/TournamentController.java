@@ -61,8 +61,7 @@ public class TournamentController {
             Tournament tournament = tournamentCreator.create(createTournamentDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(tournamentMapper.toRetrieveTournamentDto(tournament));
 
-        }
-        catch (ValidationError err){
+        } catch (ValidationError err){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }
     }

@@ -1,0 +1,216 @@
+POST http://localhost:8080/api/tournaments/
+user-id: 1
+Content-Type: application/json
+
+{
+  "name": "123s32322",
+  "startDate": "2022-10-10",
+  "maxJudges": 5,
+  "maxGames": 3,
+  "approvalRatio": 0.6,
+  "judgesIds": [1, 2],
+  "teamsIds": [1, 2, 3, 4, 5]
+}
+
+<> 2023-04-19T001235.201.json
+<> 2023-04-19T000813.201.json
+
+###
+POST http://localhost:8080/api/matches/2/play-game/?winnerId=2
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001236.201.json
+<> 2023-04-19T000813-1.201.json
+###
+POST http://localhost:8080/api/games/1/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001236-1.201.json
+<> 2023-04-19T000813-2.201.json
+###
+POST http://localhost:8080/api/games/1/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001236-2.201.json
+<> 2023-04-19T000814.201.json
+###
+POST http://localhost:8080/api/matches/2/play-game/?winnerId=2
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001236-3.201.json
+<> 2023-04-19T000814-1.201.json
+###
+POST http://localhost:8080/api/games/2/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001237.201.json
+<> 2023-04-19T000814-2.201.json
+###
+POST http://localhost:8080/api/games/2/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001237-1.201.json
+<> 2023-04-19T000814-3.201.json
+###
+POST http://localhost:8080/api/matches/2/play-game/?winnerId=2
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001237-2.201.json
+<> 2023-04-19T000815.201.json
+###
+POST http://localhost:8080/api/games/3/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001237-3.201.json
+<> 2023-04-19T000815-1.201.json
+###
+POST http://localhost:8080/api/games/3/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001238.201.json
+<> 2023-04-19T000825.201.json
+
+
+
+
+
+###
+POST http://localhost:8080/api/matches/3/play-game/?winnerId=3
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001238-1.201.json
+<> 2023-04-19T000825-1.201.json
+###
+POST http://localhost:8080/api/games/4/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001238-2.201.json
+<> 2023-04-19T000825-2.201.json
+###
+POST http://localhost:8080/api/games/4/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001238-3.201.json
+<> 2023-04-19T000826.201.json
+###
+POST http://localhost:8080/api/matches/3/play-game/?winnerId=3
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001238-4.201.json
+<> 2023-04-19T000826-1.201.json
+###
+POST http://localhost:8080/api/games/5/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001239.201.json
+<> 2023-04-19T000826-2.201.json
+###
+POST http://localhost:8080/api/games/5/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001239-1.201.json
+<> 2023-04-19T000826-3.201.json
+###
+POST http://localhost:8080/api/matches/3/play-game/?winnerId=3
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001240.201.json
+<> 2023-04-19T000827.201.json
+###
+POST http://localhost:8080/api/games/6/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001240-1.201.json
+<> 2023-04-19T000827-1.201.json
+###
+POST http://localhost:8080/api/games/6/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001240-2.201.json
+<> 2023-04-19T000829.201.json
+
+
+
+
+
+###
+POST http://localhost:8080/api/matches/5/play-game/?winnerId=5
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001240-3.201.json
+<> 2023-04-19T000825-1.201.json
+###
+POST http://localhost:8080/api/games/7/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001241.201.json
+<> 2023-04-19T000825-2.201.json
+###
+POST http://localhost:8080/api/games/7/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001241-1.201.json
+<> 2023-04-19T000826.201.json
+###
+POST http://localhost:8080/api/matches/5/play-game/?winnerId=5
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001241-2.201.json
+<> 2023-04-19T000826-1.201.json
+###
+POST http://localhost:8080/api/games/8/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001241-3.201.json
+<> 2023-04-19T000826-2.201.json
+###
+POST http://localhost:8080/api/games/8/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001242.201.json
+<> 2023-04-19T000826-3.201.json
+###
+POST http://localhost:8080/api/matches/5/play-game/?winnerId=5
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001242-1.201.json
+<> 2023-04-19T000827.201.json
+###
+POST http://localhost:8080/api/games/9/approve/
+user-id: 1
+Content-Type: application/json
+
+<> 2023-04-19T001242-2.201.json
+<> 2023-04-19T000827-1.201.json
+###
+POST http://localhost:8080/api/games/9/approve/
+user-id: 2
+Content-Type: application/json
+
+<> 2023-04-19T001242-3.201.json
+

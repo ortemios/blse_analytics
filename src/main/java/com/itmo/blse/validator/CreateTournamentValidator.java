@@ -51,6 +51,18 @@ public class CreateTournamentValidator {
         if (tournamentRepository.getTournamentByName(createTournamentDto.getName()) != null)
             errors.add(String.format("Tournament with name %s already exists", createTournamentDto.getName()));
 
+        if (createTournamentDto.getJudgesIds().size() < 1 || createTournamentDto.getJudgesIds().size() > 10) {
+            errors.add("Judges count should not be less than 1 or greater than 10");
+        }
+
+        if (createTournamentDto.getMaxGames() < 1 || createTournamentDto.getMaxGames() > 10) {
+            errors.add("MaxGames should not be less than 1 or greater than 10");
+        }
+
+        if (createTournamentDto.getMaxGames() % 2 == 0) {
+            errors.add("MaxGames should not be even");
+        }
+
         if (errors.size() != 0) throw new ValidationError(errors);
 
         createTournamentDto.setJudges(foundJudges);

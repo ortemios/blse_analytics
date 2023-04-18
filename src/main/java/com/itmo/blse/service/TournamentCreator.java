@@ -23,11 +23,9 @@ public class TournamentCreator {
 
 
     public Tournament create(CreateTournamentDto data) throws ValidationError {
-        this.validate(data);
         Tournament tournament = Tournament
                 .builder()
                 .name(data.getName())
-                .maxJudges(data.getMaxJudges())
                 .maxGames(data.getMaxGames())
                 .approvalRatio(data.getApprovalRatio())
                 .startDate(data.getStartDate())
@@ -41,19 +39,6 @@ public class TournamentCreator {
 
         return tournamentRepository.getTournamentById(tournament.getId());  // refresh from db
 
-
-    }
-
-    private void validate(CreateTournamentDto data) throws ValidationError{
-        ArrayList<String> errors = new ArrayList<>();
-
-        if (data.getMaxJudges() < data.getJudges().size()){
-            errors.add("Passed judges count more then max judges count for this tournament");
-        }
-        if (data.getJudges().size() > 10){
-            errors.add("Judges count can't be more then 10");
-        }
-        if(errors.size() > 0) throw new ValidationError(errors);
 
     }
 }

@@ -7,13 +7,10 @@ import com.itmo.blse.repository.GameVoteRepository;
 import com.itmo.blse.repository.MatchRepository;
 import com.itmo.blse.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 enum MatchStatus {
     FINISHED, IN_PROGRESS, VOTING
@@ -36,18 +33,6 @@ public class GameService {
 
     @Autowired
     TeamRepository teamRepository;
-
-//    private GameStatus getWinner(Match match) {
-//        Tournament tournament = match.getTournament();
-//        List<Game> games = gameRepository.getGamesByMatch(match);
-//
-//        for (Game game : games) {
-//            if (get)
-//        }
-//        if (games.size() == tournament.getMaxGames() && games.stream().allMatch(game -> getGameStatus(game) == GameStatus.APPROVED)) {
-//            int team1Vicotries = games.stream().filter(game -> game.getWinner() == )
-//        }
-//    }
 
     private MatchStatus updateAndGetMatchStatus(Match match) {
         Tournament tournament = match.getTournament();
@@ -80,13 +65,24 @@ public class GameService {
             Match next = match.getNextMatch();
             if (next != null) {
                 Team winner = team1Wins > team2Wins ? match.getTeam1() : match.getTeam2();
-                if (next.getTeam1() != winner && next.getTeam2() != winner) {
-                    if (next.getTeam1() == null) {
+                Long team1Id = next.getTeam1() != null ? next.getTeam1().getId() : null;
+                Long team2Id = next.getTeam2() != null ? next.getTeam2().getId() : null;
+                if (!Objects.equals(team1Id, winner.getId()) && !Objects.equals(team2Id, winner.getId())) {
+                    if (team1Id == null) {
                         next.setTeam1(winner);
-                    } else if (next.getTeam2() == null) {
+                    } else if (team2Id == null) {
                         next.setTeam2(winner);
                     } else {
                         assert false;
+                    }
+                    matchRepository.save(next);
+                    match = next;
+                    next = match.getNextMatch();
+                    while (next != null && matchRepository.getAllByNextMatch(match).size() == 1) {
+                        next.setTeam1(winner);
+                        matchRepository.save(next);
+                        match = next;
+                        next = match.getNextMatch();
                     }
                 }
             }
@@ -125,8 +121,12 @@ public class GameService {
         if (match.getTeam1() != winner && match.getTeam2() != winner) {
             throw new ValidationError(List.of("Winner does not belong to match"));
         }
-        if (updateAndGetMatchStatus(match) != MatchStatus.IN_PROGRESS) {
+        MatchStatus status = updateAndGetMatchStatus(match);
+        if (status == MatchStatus.VOTING) {
             throw new ValidationError(List.of("Can't play while the last game is not approved"));
+        }
+        if (status == MatchStatus.FINISHED) {
+            throw new ValidationError(List.of("Can't play when match is finished"));
         }
 
         Game game = new Game();
@@ -145,9 +145,15 @@ public class GameService {
             throw new ValidationError(List.of("Game not found"));
         }
         Tournament tournament = game.getMatch().getTournament();
-        if (!tournament.getJudges().contains(user)) {
+        if (tournament.getJudges().stream().noneMatch(judge -> judge.getId().equals(user.getId()))) {
             throw new ValidationError(List.of("User is not a judge"));
         }
+
+        if (gameVoteRepository.getGameVotesByGame(game).size() == tournament.getMaxGames()) {
+            throw new ValidationError(List.of("Game is already finished"));
+        }
+
+        gameVoteRepository.deleteAllByGameAndJudge(game, user);
 
         GameVote gameVote = new GameVote();
         gameVote.setGame(game);

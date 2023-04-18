@@ -24,9 +24,6 @@ public class Tournament extends Timestamped{
     private Date startDate;
 
     @Column(nullable = false)
-    private int maxJudges;
-
-    @Column(nullable = false)
     private double approvalRatio;
 
     @Column(nullable = false)
