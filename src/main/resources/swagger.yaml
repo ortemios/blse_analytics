@@ -272,6 +272,10 @@ definitions:
         type: "number"
       maxGames:
         type: "integer"
+      winner:
+        type: "array"
+        items:
+          $ref: "#/definitions/TeamDto"
   
   
   GameVoteDto:
@@ -320,6 +324,10 @@ definitions:
         type: "integer"
       name:
         type: "string"
+      winner:
+        type: "array"
+        items:
+          $ref: "#/definitions/TeamDto"
       startDate:
         type: "string"
       approvalRatio:
