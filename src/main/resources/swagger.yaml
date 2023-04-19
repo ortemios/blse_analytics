@@ -273,8 +273,6 @@ definitions:
       maxGames:
         type: "integer"
       winner:
-        type: "array"
-        items:
           $ref: "#/definitions/TeamDto"
   
   
@@ -325,8 +323,6 @@ definitions:
       name:
         type: "string"
       winner:
-        type: "object"
-        items:
           $ref: "#/definitions/TeamDto"
       startDate:
         type: "string"
