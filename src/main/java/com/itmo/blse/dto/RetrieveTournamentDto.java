@@ -1,6 +1,7 @@
 package com.itmo.blse.dto;
 
 import com.itmo.blse.model.Match;
+import com.itmo.blse.model.Team;
 import com.itmo.blse.model.Tournament;
 import com.itmo.blse.model.User;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class RetrieveTournamentDto {
     List<MatchDto> matches;
     Double approvalRatio;
     Integer maxGames;
+    TeamDto winner;
 
 
 }

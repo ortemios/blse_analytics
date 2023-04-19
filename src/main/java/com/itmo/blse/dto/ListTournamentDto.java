@@ -1,5 +1,6 @@
 package com.itmo.blse.dto;
 
+import com.itmo.blse.model.Team;
 import com.itmo.blse.model.Tournament;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class ListTournamentDto {
     Integer maxJudges;
     Double approvalRatio;
     Integer maxGames;
+    TeamDto winner;
 
 
 }

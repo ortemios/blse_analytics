@@ -31,6 +31,7 @@ public class TournamentMapper {
                 .start_date(tournament.getStartDate())
                 .approvalRatio(tournament.getApprovalRatio())
                 .maxGames(tournament.getMaxGames())
+                .winner(tournament.getWinner() != null ? teamMapper.toTeamDto(tournament.getWinner()) : null)
                 .judges(tournament.getJudges().stream().map(userMapper::toUserDto).collect(Collectors.toList()))
                 .teams(tournament.getTeams().stream().map(teamMapper::toTeamDto).collect(Collectors.toList()))
                 .matches(matchRepository.getAllByTournament(tournament).stream().map(matchMapper::toMatchDto).collect(Collectors.toList()))
@@ -43,6 +44,7 @@ public class TournamentMapper {
                 .name(tournament.getName())
                 .startDate(tournament.getStartDate())
                 .approvalRatio(tournament.getApprovalRatio())
+                .winner(tournament.getWinner() != null ? teamMapper.toTeamDto(tournament.getWinner()) : null)
                 .maxGames(tournament.getMaxGames())
                 .build();
     }
