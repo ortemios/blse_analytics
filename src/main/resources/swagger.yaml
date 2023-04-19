@@ -325,7 +325,7 @@ definitions:
       name:
         type: "string"
       winner:
-        type: "array"
+        type: "object"
         items:
           $ref: "#/definitions/TeamDto"
       startDate:
