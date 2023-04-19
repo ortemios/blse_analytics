@@ -1,10 +1,10 @@
 package com.itmo.blse.controller;
 
 import com.itmo.blse.errors.ValidationError;
-import com.itmo.blse.mapper.GameMapper;
 import com.itmo.blse.mapper.MatchMapper;
-import com.itmo.blse.model.Game;
+import com.itmo.blse.mapper.TournamentMapper;
 import com.itmo.blse.model.Match;
+import com.itmo.blse.model.Tournament;
 import com.itmo.blse.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,13 +19,16 @@ public class MatchesController {
     GameService gameService;
 
     @Autowired
-    MatchMapper mapper;
+    MatchMapper matchMapper;
+
+    @Autowired
+    TournamentMapper tournamentMapper;
 
     @PostMapping("/{id}/play-game/")
     public ResponseEntity<?> playGame(@PathVariable Long id, @RequestParam Long winnerId) {
         try {
             Match match = gameService.playGame(id, winnerId);
-            return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toMatchDto(match));
+            return ResponseEntity.status(HttpStatus.CREATED).body(matchMapper.toMatchDto(match));
         } catch (ValidationError err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }
@@ -34,8 +37,8 @@ public class MatchesController {
     @PostMapping("/{id}/drop/")
     public ResponseEntity<?> drop(@PathVariable Long id) {
         try {
-            Match match = gameService.dropMatch(id);
-            return ResponseEntity.status(HttpStatus.OK).body(mapper.toMatchDto(match));
+            Tournament tournament = gameService.dropMatch(id);
+            return ResponseEntity.status(HttpStatus.OK).body(tournamentMapper.toRetrieveTournamentDto(tournament));
         } catch (ValidationError err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }

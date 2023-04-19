@@ -2,10 +2,7 @@ package com.itmo.blse.service;
 
 import com.itmo.blse.errors.ValidationError;
 import com.itmo.blse.model.*;
-import com.itmo.blse.repository.GameRepository;
-import com.itmo.blse.repository.GameVoteRepository;
-import com.itmo.blse.repository.MatchRepository;
-import com.itmo.blse.repository.TeamRepository;
+import com.itmo.blse.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,9 @@ public class GameService {
 
     @Autowired
     GameRepository gameRepository;
+
+    @Autowired
+    TournamentRepository tournamentRepository;
 
     @Autowired
     GameVoteRepository gameVoteRepository;
@@ -63,8 +63,8 @@ public class GameService {
         }
         if (gamesApproved == games.size() && games.size() == tournament.getMaxGames()) {
             Match next = match.getNextMatch();
+            Team winner = team1Wins > team2Wins ? match.getTeam1() : match.getTeam2();
             if (next != null) {
-                Team winner = team1Wins > team2Wins ? match.getTeam1() : match.getTeam2();
                 Long team1Id = next.getTeam1() != null ? next.getTeam1().getId() : null;
                 Long team2Id = next.getTeam2() != null ? next.getTeam2().getId() : null;
                 if (!Objects.equals(team1Id, winner.getId()) && !Objects.equals(team2Id, winner.getId())) {
@@ -85,6 +85,9 @@ public class GameService {
                         next = match.getNextMatch();
                     }
                 }
+            } else {
+                tournament.setWinner(winner);
+                tournamentRepository.save(tournament);
             }
             return MatchStatus.FINISHED;
         } else {
@@ -92,20 +95,36 @@ public class GameService {
         }
     }
 
-    public Match dropMatch(Long id) throws ValidationError {
+    public Tournament dropMatch(Long id) throws ValidationError {
         Match match = matchRepository.getMatchById(id);
         if (match == null) {
             throw new ValidationError(List.of("Match not found"));
         }
         Match next = match.getNextMatch();
-        gameRepository.deleteByMatch(match);
+        gameRepository.deleteAllByMatch(match);
+
+
         while (next != null) {
-            next.setTeam2(null);
-            next.setTeam1(null);
-            gameRepository.deleteByMatch(next);
+            Long team1Id = match.getTeam1() != null ? match.getTeam1().getId() : null;
+            Long team2Id = match.getTeam2() != null ? match.getTeam2().getId() : null;
+            Long nextTeam1Id = next.getTeam1() != null ? next.getTeam1().getId() : null;
+            Long nextTeam2Id = next.getTeam2() != null ? next.getTeam2().getId() : null;
+            Long winnerId = (Objects.equals(nextTeam1Id, team1Id) || Objects.equals(nextTeam2Id, team1Id)) ? team1Id : team2Id;
+
+            if (Objects.equals(winnerId, nextTeam1Id)) {
+                next.setTeam1(null);
+            }
+            if (Objects.equals(winnerId, nextTeam2Id)) {
+                next.setTeam2(null);
+            }
+            gameRepository.deleteAllByMatch(next);
+            match = next;
             next = next.getNextMatch();
         }
-        return match;
+        Tournament tournament = match.getTournament();
+        tournament.setWinner(null);
+        tournamentRepository.save(tournament);
+        return tournament;
     }
 
     public Match playGame(Long id, Long winnerId) throws ValidationError {

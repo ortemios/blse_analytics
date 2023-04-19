@@ -232,7 +232,7 @@ paths:
         "200":
           description: "Ok"
           schema:
-            $ref: "#/definitions/MatchDto"
+            $ref: "#/definitions/RetrieveTournamentDto"
             
         "400":
           description: "Validation Error"
