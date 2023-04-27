@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public interface GameVoteRepository extends JpaRepository<GameVote, Long> {
 
-    GameVote getGameVoteById(Long id);
-
     List<GameVote> getGameVotesByGame(Game game);
 
     @Transactional
