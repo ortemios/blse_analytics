@@ -5,7 +5,9 @@ import com.itmo.blse.model.*;
 import com.itmo.blse.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +97,7 @@ public class GameService {
         }
     }
 
+    @Transactional
     public Tournament dropMatch(Long id) throws ValidationError {
         Match match = matchRepository.getMatchById(id);
         if (match == null) {
@@ -127,6 +130,7 @@ public class GameService {
         return tournament;
     }
 
+    @Transactional
     public Match playGame(Long id, Long winnerId) throws ValidationError {
         Match match = matchRepository.getMatchById(id);
         Team winner = teamRepository.getTeamById(winnerId);
@@ -156,6 +160,7 @@ public class GameService {
         return match;
     }
 
+    @Transactional
     public Game approveGame(Long id, boolean isApproved) throws ValidationError {
         User user = userService.fromContext();
 
