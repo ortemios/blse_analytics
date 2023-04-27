@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api/matches", produces = "application/json")
+@RequestMapping(value = "/api/moderator/matches", produces = "application/json")
 public class MatchesController {
 
     @Autowired

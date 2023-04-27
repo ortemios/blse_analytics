@@ -1,3 +1,6 @@
+
+
+
 INSERT INTO users (created, updated, username) VALUES
     (now(), now(), 'user1'),
     (now(), now(), 'user2'),

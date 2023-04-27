@@ -1,3 +1,7 @@
+curl -X GET "http://localhost:1453/api/user/me/"
+
+curl -X POST "http://localhost:1453/api/user/register/" -H "Content-Type: application/json" -d '{"username": "aboba", "password": "123"}'
+
 curl -X POST "http://localhost:1453/api/tournaments/" \
    -H "Content-Type: application/json" \
    -H "user-id: 1" \

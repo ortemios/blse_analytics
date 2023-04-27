@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/games", produces = "application/json")
+@RequestMapping(value = "/api/judge/games", produces = "application/json")
 public class GamesController {
 
     @Autowired

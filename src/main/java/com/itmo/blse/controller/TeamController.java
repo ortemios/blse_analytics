@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/teams", produces = "application/json")
+@RequestMapping(value = "/api/", produces = "application/json")
 public class TeamController {
 
     @Autowired
@@ -39,12 +39,12 @@ public class TeamController {
     @Autowired
     TeamReader teamReader;
 
-    @GetMapping("/")
+    @GetMapping("user/teams/")
     public List<TeamDto> getTeams() {
         return teamReader.getAll().stream().map(teamMapper::toTeamDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/")
+    @GetMapping("user/teams/{id}/")
     public TeamDto getTeamById(@PathVariable Long id) {
         Team team = teamReader.getById(id);
         if (team == null) {
@@ -55,7 +55,7 @@ public class TeamController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("moderator/teams/")
     public ResponseEntity<?> createTeam(@NonNull @RequestParam String name){
         try {
             createTeamValidator.clean(name);

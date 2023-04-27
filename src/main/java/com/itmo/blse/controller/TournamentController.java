@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/api/tournaments", produces = "application/json")
+@RequestMapping(value = "/api/", produces = "application/json")
 public class TournamentController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class TournamentController {
     @Autowired
     TournamentMapper tournamentMapper;
 
-    @GetMapping("/")
+    @GetMapping("/user/tournaments")
     public List<ListTournamentDto> getTournaments() {
         return tournamentReader
                 .getAll()
@@ -43,7 +43,7 @@ public class TournamentController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/")
+    @GetMapping("tournaments/{id}/user/")
     public RetrieveTournamentDto getTournamentById(@PathVariable Long id) {
         Tournament tournament = tournamentReader.getById(id);
         if (tournament == null) {
@@ -54,7 +54,7 @@ public class TournamentController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("/moderator/tournaments")
     public ResponseEntity<?> createTournament(@RequestBody CreateTournamentDto createTournamentDto){
         try {
             createTournamentValidator.clean(createTournamentDto);
