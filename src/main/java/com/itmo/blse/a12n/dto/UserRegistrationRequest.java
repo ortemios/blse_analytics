@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class UserAccountDto {
+public class UserRegistrationRequest {
 
     String username;
     String password;

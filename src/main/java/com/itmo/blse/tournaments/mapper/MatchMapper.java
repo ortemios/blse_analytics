@@ -1,7 +1,7 @@
 package com.itmo.blse.tournaments.mapper;
 
 
-import com.itmo.blse.tournaments.dto.*;
+import com.itmo.blse.tournaments.dto.MatchDto;
 import com.itmo.blse.tournaments.model.Match;
 import com.itmo.blse.tournaments.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;

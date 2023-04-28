@@ -1,7 +1,7 @@
 package com.itmo.blse.tournaments.controller;
 
-import com.itmo.blse.tournaments.dto.*;
 import com.itmo.blse.app.error.ValidationError;
+import com.itmo.blse.tournaments.dto.TeamDto;
 import com.itmo.blse.tournaments.mapper.TeamMapper;
 import com.itmo.blse.tournaments.model.Team;
 import com.itmo.blse.tournaments.service.TeamCreator;

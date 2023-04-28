@@ -1,15 +1,18 @@
 package com.itmo.blse.a12n.controller;
 
-import com.itmo.blse.a12n.dto.UserAccountDto;
+import com.itmo.blse.a12n.dto.UserRegistrationRequest;
+import com.itmo.blse.a12n.service.UserRegistrationService;
 import com.itmo.blse.app.error.ValidationError;
 import com.itmo.blse.users.mapper.UserMapper;
 import com.itmo.blse.users.model.User;
-import com.itmo.blse.a12n.service.UserRegistrationService;
 import com.itmo.blse.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/auth", produces = "application/json")
@@ -26,9 +29,9 @@ public class AuthController {
 
 
     @PostMapping("/register/")
-    public ResponseEntity<?> register(@RequestBody UserAccountDto userAccountDto) {
+    public ResponseEntity<?> register(@RequestBody UserRegistrationRequest userRegistrationRequest) {
         try {
-            User user = userRegistrationService.register(userAccountDto);
+            User user = userRegistrationService.register(userRegistrationRequest);
             return ResponseEntity.ok(userMapper.toUserDto(user));
         }
         catch (ValidationError err){

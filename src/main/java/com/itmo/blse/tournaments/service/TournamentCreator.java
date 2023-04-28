@@ -1,12 +1,12 @@
 package com.itmo.blse.tournaments.service;
 
 
-import com.itmo.blse.tournaments.dto.CreateTournamentDto;
 import com.itmo.blse.app.error.ValidationError;
+import com.itmo.blse.tournaments.dto.CreateTournamentDto;
 import com.itmo.blse.tournaments.model.Roles;
 import com.itmo.blse.tournaments.model.Tournament;
-import com.itmo.blse.users.model.User;
 import com.itmo.blse.tournaments.repository.TournamentRepository;
+import com.itmo.blse.users.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

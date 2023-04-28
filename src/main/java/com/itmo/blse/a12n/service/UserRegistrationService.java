@@ -1,11 +1,11 @@
 package com.itmo.blse.a12n.service;
 
 
-import com.itmo.blse.a12n.dto.UserAccountDto;
+import com.itmo.blse.a12n.dto.UserRegistrationRequest;
+import com.itmo.blse.a12n.repository.UserAccountRepository;
 import com.itmo.blse.app.error.ValidationError;
 import com.itmo.blse.users.model.User;
 import com.itmo.blse.users.repository.UserRepository;
-import com.itmo.blse.a12n.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class UserRegistrationService {
     PasswordEncoder passwordEncoder;
 
 
-    public User register(UserAccountDto data) throws ValidationError {
+    public User register(UserRegistrationRequest data) throws ValidationError {
         List<String> errors = new ArrayList<>();
         if (data.getUsername().length() < 3 || data.getUsername().length() > 32)
             errors.add("Invalid username");

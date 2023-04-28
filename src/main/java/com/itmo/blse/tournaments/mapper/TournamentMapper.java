@@ -1,7 +1,8 @@
 package com.itmo.blse.tournaments.mapper;
 
 
-import com.itmo.blse.tournaments.dto.*;
+import com.itmo.blse.tournaments.dto.ListTournamentDto;
+import com.itmo.blse.tournaments.dto.RetrieveTournamentDto;
 import com.itmo.blse.tournaments.model.Tournament;
 import com.itmo.blse.tournaments.repository.MatchRepository;
 import com.itmo.blse.users.mapper.UserMapper;

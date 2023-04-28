@@ -1,9 +1,9 @@
 package com.itmo.blse.a12n.service;
 
 import com.itmo.blse.a12n.model.UserAccount;
+import com.itmo.blse.a12n.repository.UserAccountRepository;
 import com.itmo.blse.users.model.User;
 import com.itmo.blse.users.repository.UserRepository;
-import com.itmo.blse.a12n.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

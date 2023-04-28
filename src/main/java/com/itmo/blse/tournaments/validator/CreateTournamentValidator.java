@@ -1,18 +1,20 @@
 package com.itmo.blse.tournaments.validator;
 
-import com.itmo.blse.tournaments.dto.CreateTournamentDto;
 import com.itmo.blse.app.error.ValidationError;
+import com.itmo.blse.tournaments.dto.CreateTournamentDto;
 import com.itmo.blse.tournaments.model.Team;
-import com.itmo.blse.users.model.User;
 import com.itmo.blse.tournaments.repository.TeamRepository;
 import com.itmo.blse.tournaments.repository.TournamentRepository;
+import com.itmo.blse.users.model.User;
 import com.itmo.blse.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+;
 
 @Service
 public class CreateTournamentValidator {

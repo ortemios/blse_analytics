@@ -1,7 +1,7 @@
 package com.itmo.blse.users.model;
 
-import com.itmo.blse.tournaments.model.Roles;
 import com.itmo.blse.app.model.Timestamped;
+import com.itmo.blse.tournaments.model.Roles;
 import lombok.*;
 
 import javax.persistence.*;
