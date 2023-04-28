@@ -1,5 +1,5 @@
-POST http://localhost:8080/api/tournaments/
-user-id: 1
+POST http://localhost:1453/api/user/tournaments/
+
 Content-Type: application/json
 {
   "name": "123s32322",
