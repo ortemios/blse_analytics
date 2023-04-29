@@ -1,6 +1,7 @@
 package com.itmo.blse.users.service;
 
 
+import com.itmo.blse.tournaments.model.Roles;
 import com.itmo.blse.users.model.User;
 import com.itmo.blse.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -29,6 +31,10 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public List<User> listByRole(Roles role){
+        return userRepository.getAllByRolesContains(role);
     }
 
 }

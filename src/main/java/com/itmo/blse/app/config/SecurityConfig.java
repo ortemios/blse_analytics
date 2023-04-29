@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/user/**").hasAnyRole("USER")
-                .antMatchers("/api/moderator/**").hasAnyRole("MODERATOR", "JUDGE")
+                .antMatchers("/api/moderator/**").hasAnyRole("MODERATOR")
                 .antMatchers("/api/judge/**").hasRole("JUDGE")
                 .and()
                 .httpBasic()

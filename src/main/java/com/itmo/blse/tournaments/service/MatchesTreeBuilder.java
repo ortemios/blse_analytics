@@ -68,6 +68,8 @@ public class MatchesTreeBuilder {
 
     private List<Match> buildInitialLayer(Tournament tournament){
         ArrayList<Match> matches = new ArrayList<>();
+        if (tournament.getTeams().size() == 0)
+            throw new RuntimeException("Invalid tournament data");
         List<Pair<Team>> pairs = splitObjectsByPairs(tournament.getTeams());
         for(Pair<Team> pair: pairs){
             Match match = Match

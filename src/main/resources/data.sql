@@ -1,11 +1,3 @@
-
-
-
-INSERT INTO users (created, updated, username) VALUES
-    (now(), now(), 'user1'),
-    (now(), now(), 'user2'),
-    (now(), now(), 'user3');
-
 INSERT INTO team (created, updated, name) VALUES
     (now(), now(), 'team1'),
     (now(), now(), 'team2'),
