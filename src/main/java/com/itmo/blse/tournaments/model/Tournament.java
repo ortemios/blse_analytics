@@ -21,6 +21,9 @@ public class Tournament extends Timestamped {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(unique = true, nullable = false)
+    private String publicId;
+
     @Column(nullable = false)
     private Date startDate;
 

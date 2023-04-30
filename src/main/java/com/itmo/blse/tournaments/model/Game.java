@@ -6,10 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,4 +24,7 @@ public class Game extends Timestamped {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "winner_id")
     private Team winner;
+
+    @Column(unique = true, nullable = false)
+    private String publicId = UUID.randomUUID().toString();
 }

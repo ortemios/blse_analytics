@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -37,4 +38,7 @@ public class Match {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "next_match_id")
     private Match nextMatch;
+
+    @Column(unique = true, nullable = false)
+    private String publicId = UUID.randomUUID().toString();
 }
