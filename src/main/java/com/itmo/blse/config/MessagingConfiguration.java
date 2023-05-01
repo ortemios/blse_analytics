@@ -19,7 +19,6 @@ public class MessagingConfiguration {
     @Value("${rabbitmq.url}")
     private String connectionUrl;
 
-
     @Bean
     public RMQConnectionFactory connectionFactory() {
         RMQConnectionFactory factory = new RMQConnectionFactory();
@@ -30,12 +29,5 @@ public class MessagingConfiguration {
             throw new RuntimeException("Connection to broker failed");
         }
         return factory;
-    }
-
-    @Bean
-    public JmsTemplate jmsTemplate() {
-        JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory());
-        jmsTemplate.setDefaultDestinationName("analytics.stats");
-        return jmsTemplate;
     }
 }

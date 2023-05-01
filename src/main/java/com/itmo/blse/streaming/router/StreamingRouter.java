@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itmo.blse.streaming.event.*;
 import com.itmo.blse.streaming.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class StreamingRouter {
     @Handler(MatchUpdatedHandler.class)
     MatchUpdatedHandler matchUpdatedHandler;
 
-    @JmsListener(destination = "analytics.stats")
+    @JmsListener(destination = "${rabbitmq.queue}")
     public void onMessage(String message) throws JsonProcessingException, IllegalAccessException {
 
         ObjectMapper mapper = new ObjectMapper();
