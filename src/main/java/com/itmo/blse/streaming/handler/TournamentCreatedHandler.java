@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 
 @Service
 public class TournamentCreatedHandler implements EventHandler<TournamentCreatedEvent> {
@@ -29,8 +31,10 @@ public class TournamentCreatedHandler implements EventHandler<TournamentCreatedE
     public void handle(TournamentCreatedEvent event) {
         List<Match> matches = new ArrayList<>();
         for (MatchCreatedModel model : event.getData().getMatches()) {
-            Team team1 = teamRepository.getReferenceById(model.getTeam1PublicId());
-            Team team2 = teamRepository.getReferenceById(model.getTeam2PublicId());
+            UUID team1Id = model.getTeam1PublicId();
+            UUID team2Id = model.getTeam2PublicId();
+            Team team1 = team1Id != null ? teamRepository.getReferenceById(model.getTeam1PublicId()) : null;
+            Team team2 = team2Id != null ? teamRepository.getReferenceById(model.getTeam2PublicId()) : null;
             Match match = new Match();
             match.setId(model.getPublicId());
             match.setTeam1(team1);

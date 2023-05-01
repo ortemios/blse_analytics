@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name="analytics_tournament")
 @Getter
 @Setter
 @NoArgsConstructor

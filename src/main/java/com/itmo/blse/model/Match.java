@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Getter
-@Entity
+@Entity(name="analytics_match")
 @Setter
 @NoArgsConstructor
 public class Match {

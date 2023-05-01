@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
-@Entity
+@Entity(name="analytics_team")
 @Getter
 @Setter
 @NoArgsConstructor

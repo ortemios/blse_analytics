@@ -2,10 +2,8 @@ package com.itmo.blse.streaming.router;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itmo.blse.streaming.event.Event;
-import com.itmo.blse.streaming.event.TeamCreatedEvent;
-import com.itmo.blse.streaming.handler.EventHandler;
-import com.itmo.blse.streaming.handler.TeamCreatedHandler;
+import com.itmo.blse.streaming.event.*;
+import com.itmo.blse.streaming.handler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
@@ -21,16 +19,36 @@ public class StreamingRouter {
     @Handler(TeamCreatedEvent.class)
     TeamCreatedHandler teamCreatedHandler;
 
+    @Autowired
+    @Handler(TournamentCreatedEvent.class)
+    TournamentCreatedHandler tournamentCreatedHandler;
+
+    @Autowired
+    @Handler(GamePlayedEvent.class)
+    GamePlayedHandler gamePlayedHandler;
+
+    @Autowired
+    @Handler(GameDroppedEvent.class)
+    GameDroppedHandler gameDroppedHandler;
+
+    @Autowired
+    @Handler(MatchUpdatedHandler.class)
+    MatchUpdatedHandler matchUpdatedHandler;
+
     @JmsListener(destination = "analytics.stats")
     public void onMessage(String message) throws JsonProcessingException, IllegalAccessException {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Event event = mapper.readValue(message, Event.class);
-        System.out.println(event.getClass().getSimpleName() + " " + message);
-        EventHandler handler = getEventHandler(event);
-        if (handler != null) {
-            handler.handle(event);
+        try {
+            Event event = mapper.readValue(message, Event.class);
+            System.out.println(event.getClass().getSimpleName() + " " + message);
+            EventHandler handler = getEventHandler(event);
+            if (handler != null) {
+                handler.handle(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

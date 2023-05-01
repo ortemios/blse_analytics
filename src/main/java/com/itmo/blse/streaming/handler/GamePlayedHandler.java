@@ -9,7 +9,12 @@ import com.itmo.blse.repository.TeamRepository;
 import com.itmo.blse.streaming.event.GamePlayedEvent;
 import com.itmo.blse.streaming.model.GamePlayedModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
+
+@Service
 public class GamePlayedHandler implements EventHandler<GamePlayedEvent> {
 
     @Autowired
@@ -22,9 +27,12 @@ public class GamePlayedHandler implements EventHandler<GamePlayedEvent> {
     @Override
     public void handle(GamePlayedEvent event) {
         GamePlayedModel model = event.getData();
-        Match match = matchRepository.getMatchById(model.getMatchPublicId());
-        Team winner = teamRepository.getTeamById(model.getWinnerPublicId());
-        Game game = gameRepository.getGameById(model.getPublicId());
+        UUID matchId = model.getMatchPublicId();
+        UUID winnerId = model.getWinnerPublicId();
+        Match match = matchId != null ? matchRepository.getMatchById(model.getMatchPublicId()) : null;
+        Team winner = winnerId != null ? teamRepository.getTeamById(model.getWinnerPublicId()) : null;
+        Game game = new Game();
+        game.setId(event.getData().getPublicId());
         game.setMatch(match);
         game.setWinner(winner);
         gameRepository.save(game);

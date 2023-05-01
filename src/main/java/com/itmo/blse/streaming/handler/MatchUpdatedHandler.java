@@ -7,7 +7,12 @@ import com.itmo.blse.repository.TeamRepository;
 import com.itmo.blse.streaming.event.MatchUpdatedEvent;
 import com.itmo.blse.streaming.model.MatchUpdatedModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
+
+@Service
 public class MatchUpdatedHandler implements EventHandler<MatchUpdatedEvent> {
 
     @Autowired
@@ -18,9 +23,12 @@ public class MatchUpdatedHandler implements EventHandler<MatchUpdatedEvent> {
     @Override
     public void handle(MatchUpdatedEvent event) {
         MatchUpdatedModel data = event.getData();
-        Team team1 = teamRepository.getTeamById(data.getTeam1PublicId());
-        Team team2 = teamRepository.getTeamById(data.getTeam2PublicId());
-        Team winner = teamRepository.getTeamById(data.getWinnerPublicId());
+        UUID team1Id = data.getTeam1PublicId();
+        UUID team2Id = data.getTeam2PublicId();
+        UUID winnerId = data.getWinnerPublicId();
+        Team team1 = team1Id != null ? teamRepository.getReferenceById(data.getTeam1PublicId()) : null;
+        Team team2 = team2Id != null ? teamRepository.getReferenceById(data.getTeam2PublicId()) : null;
+        Team winner = winnerId != null ? teamRepository.getTeamById(winnerId) : null;
         Match match = matchRepository.getMatchById(data.getPublicId());
         match.setTeam1(team1);
         match.setTeam2(team2);
