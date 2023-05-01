@@ -8,7 +8,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 public class MatchCreatedModel extends MatchModel {
-
     @Builder
     public MatchCreatedModel(
             UUID publicId,
@@ -17,5 +16,4 @@ public class MatchCreatedModel extends MatchModel {
     ) {
         super(publicId, team1PublicId, team2PublicId);
     }
-
 }

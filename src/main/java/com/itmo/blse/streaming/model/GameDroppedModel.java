@@ -10,7 +10,5 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GameDroppedModel {
-
     private UUID publicId;
-
 }

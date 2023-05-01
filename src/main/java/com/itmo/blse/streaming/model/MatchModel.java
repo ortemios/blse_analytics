@@ -12,10 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatchModel {
-
     UUID publicId;
     UUID team1PublicId;
     UUID team2PublicId;
-
-
 }

@@ -10,8 +10,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TeamCreatedModel {
-
     private UUID publicId;
     private String name;
-
 }

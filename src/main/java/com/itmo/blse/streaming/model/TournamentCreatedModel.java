@@ -12,12 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TournamentCreatedModel {
-
     private UUID publicId;
     private String name;
     private Date startedAt;
     private List<UUID> teams;
     private List<MatchCreatedModel> matches;
-
-
 }

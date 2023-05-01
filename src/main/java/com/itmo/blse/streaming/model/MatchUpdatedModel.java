@@ -18,7 +18,7 @@ public class MatchUpdatedModel extends MatchModel {
             UUID team1PublicId,
             UUID team2PublicId,
             UUID winnerPublicId
-    ){
+    ) {
         super(publicId, team1PublicId, team2PublicId);
         this.winnerPublicId = winnerPublicId;
     }

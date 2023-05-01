@@ -10,10 +10,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GamePlayedModel {
-
     private UUID publicId;
     private UUID matchPublicId;
     private UUID winnerPublicId;
-
-
 }
