@@ -10,7 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "action", include = JsonTypeInfo.As.EXISTING_PROPERTY)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "action", include = JsonTypeInfo.As.EXISTING_PROPERTY, visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TeamCreatedEvent.class, name = "team-created"),
         @JsonSubTypes.Type(value = TournamentCreatedEvent.class, name = "tournament-created"),
@@ -24,9 +24,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Event {
 
-    public String eventId;
+    String eventId;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    public LocalDateTime createdAt;
-    public String routingKey;
-    public String action;
+    LocalDateTime createdAt;
+    String action;
 }

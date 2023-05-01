@@ -14,7 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Game {
     @Id
-    UUID id;
+    private UUID id;
+
     @ManyToOne
     Match match;
     @ManyToOne

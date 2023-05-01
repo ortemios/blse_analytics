@@ -3,8 +3,6 @@ package com.itmo.blse.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -14,8 +12,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class Match {
+
     @Id
-    UUID id;
+    private UUID id;
 
     @ManyToOne
     Team team1;

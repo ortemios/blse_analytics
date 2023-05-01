@@ -1,10 +1,10 @@
 package com.itmo.blse.model;
 
-import com.itmo.blse.streaming.model.MatchCreatedModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -17,9 +17,12 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class Tournament {
+
     @Id
-    UUID id;
+    private UUID id;
+    @Column
     String name;
+    @Column
     Date startedAt;
     @OneToMany
     List<Team> teams;
