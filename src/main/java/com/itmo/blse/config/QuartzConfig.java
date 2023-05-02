@@ -8,6 +8,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.spi.JobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
@@ -15,8 +16,11 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 @Configuration
 public class QuartzConfig {
 
+    @Value("${report.rate:60}")
+    Integer reportRate;
+
     @Autowired
-    private AutowiringJobFactory autowiringJobFactory;
+    AutowiringJobFactory autowiringJobFactory;
 
     @Bean
     public JobFactory jobFactory() {
@@ -36,7 +40,7 @@ public class QuartzConfig {
         return TriggerBuilder.newTrigger()
                 .forJob(myQuartzJobDetail)
                 .withIdentity("reportJobTrigger")
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(10).repeatForever())
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(reportRate).repeatForever())
                 .build();
     }
 
