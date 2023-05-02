@@ -1,6 +1,5 @@
 package com.itmo.blse.service;
 
-import com.itmo.blse.error.ValidationError;
 import com.itmo.blse.model.Game;
 import com.itmo.blse.model.Match;
 import com.itmo.blse.model.Team;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StatsService {
@@ -30,19 +28,14 @@ public class StatsService {
     @Autowired
     TournamentRepository tournamentRepository;
 
-    public double getGameWinRate(Team team) {
 
+
+    public double getGameWinRate(Team team) {
         List<Match> matches = matchRepository.getAllByTeam1OrTeam2(team, team);
-        List<Game> games = gameRepository.getAllByMatchIn(matches);
-        if (games.size() == 0) {
-            return 0;
-        }
-        long wins = games.stream().filter(game -> game.getWinner().getPublicId() == team.getPublicId()).count();
-        return (double) wins / games.size();
+        return getGameWinRate(team, matches);
     }
 
     public double getMatchWinRate(Team team) {
-
         List<Match> matches = matchRepository.getAllByTeam1OrTeam2(team, team);
         if (matches.size() == 0) {
             return 0;
@@ -52,19 +45,32 @@ public class StatsService {
     }
 
     public double getGameWinProbability(Team team1, Team team2) {
-        double rate1 = getGameWinRate(team1);
-        double rate2 = getGameWinRate(team2);
-        return rate1 == 0 && rate2 == 0 ? 0 : rate1 / (rate1 + rate2);
+        List<Match> matches = matchRepository.getAllByTeam1AndTeam2(team1, team2);
+        matches.addAll(matchRepository.getAllByTeam1AndTeam2(team2, team1));
+        return getGameWinRate(team1, matches);
     }
 
     public double getMatchWinProbability(Team team1, Team team2) {
-        double rate1 = getMatchWinRate(team1);
-        double rate2 = getMatchWinRate(team2);
-        return rate1 == 0 && rate2 == 0 ? 0 : rate1 / (rate1 + rate2);
+        List<Match> matches = matchRepository.getAllByTeam1AndTeam2(team1, team2);
+        matches.addAll(matchRepository.getAllByTeam1AndTeam2(team2, team1));
+        if (matches.size() == 0) {
+            return 0;
+        }
+        long wins = matches.stream().filter(match -> match.getWinner().getPublicId() == team1.getPublicId()).count();
+        return (double) wins / matches.size();
     }
 
     public Integer getTournamentGamesTotal(Tournament tournament) {
         List<Match> matches = tournament.getMatches();
         return gameRepository.getAllByMatchIn(matches).size();
+    }
+
+    private double getGameWinRate(Team team, List<Match> matches) {
+        List<Game> games = gameRepository.getAllByMatchIn(matches);
+        if (games.size() == 0) {
+            return 0;
+        }
+        long wins = games.stream().filter(game -> game.getWinner().getPublicId() == team.getPublicId()).count();
+        return (double) wins / games.size();
     }
 }
