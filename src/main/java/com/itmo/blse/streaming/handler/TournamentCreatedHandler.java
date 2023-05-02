@@ -48,6 +48,5 @@ public class TournamentCreatedHandler implements EventHandler<TournamentCreatedE
         tournament.setMatches(matches);
         tournament.setTeams(teamRepository.findAllByPublicIdIn(data.getTeams()));
         Tournament res = tournamentRepository.save(tournament);
-        System.out.println(res.toString());
     }
 }

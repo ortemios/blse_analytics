@@ -22,7 +22,6 @@ public class MatchUpdatedHandler implements EventHandler<MatchUpdatedEvent> {
 
     @Override
     public void handle(MatchUpdatedEvent event) {
-        System.out.println("MatchUpdated");
         MatchUpdatedModel data = event.getData();
         UUID team1Id = data.getTeam1PublicId();
         UUID team2Id = data.getTeam2PublicId();
@@ -35,6 +34,5 @@ public class MatchUpdatedHandler implements EventHandler<MatchUpdatedEvent> {
         match.setTeam2(team2);
         match.setWinner(winner);
         matchRepository.save(match);
-        System.out.println("MatchUpdated End ");
     }
 }

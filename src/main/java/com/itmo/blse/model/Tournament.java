@@ -26,7 +26,7 @@ public class Tournament {
     @Column
     String name;
 
-    @OneToMany
+    @ManyToMany
     List<Team> teams;
 
     @OneToMany

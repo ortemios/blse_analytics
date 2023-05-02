@@ -56,7 +56,7 @@ public class StatsService {
         if (matches.size() == 0) {
             return 0;
         }
-        long wins = matches.stream().filter(match -> match.getWinner().getPublicId() == team1.getPublicId()).count();
+        long wins = matches.stream().filter(match -> match.getWinner() != null && match.getWinner().getPublicId() == team1.getPublicId()).count();
         return (double) wins / matches.size();
     }
 
@@ -70,7 +70,7 @@ public class StatsService {
         if (games.size() == 0) {
             return 0;
         }
-        long wins = games.stream().filter(game -> game.getWinner().getPublicId() == team.getPublicId()).count();
+        long wins = games.stream().filter(game -> game.getWinner() != null && game.getWinner().getPublicId() == team.getPublicId()).count();
         return (double) wins / games.size();
     }
 }
