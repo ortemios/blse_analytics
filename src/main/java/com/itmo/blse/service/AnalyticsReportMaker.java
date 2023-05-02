@@ -46,14 +46,26 @@ public class AnalyticsReportMaker {
     private File makeReportFile() throws IOException{
         File file = new File(String.format("reports/report-%s.csv", LocalDateTime.now()));
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String reportString = "teamId,teamName,opponentId,opponentName,gameWinProbability,matchWinRProbability\n";
+        StringBuilder reportStringBuilder = new StringBuilder("teamId,teamName,opponentId,opponentName,gameWinProbability,matchWinRProbability\n");
         List<Team> teams = teamRepository.findAll();
         for (Team team1: teams){
             for (Team team2: teams){
                 double gameWinProbability = statsService.getGameWinProbability(team1, team2);
+                double matchWinProbability = statsService.getMatchWinProbability(team1, team2);
+                reportStringBuilder.append(String.format(
+                        "%s,%s,%s,%s,%s,%s\n",
+                        team1.getId(),
+                        team1.getName(),
+                        team2.getId(),
+                        team2.getName(),
+                        gameWinProbability,
+                        matchWinProbability
+                ));
             }
         }
-
+        writer.write(reportStringBuilder.toString());
+        writer.flush();
+        writer.close();
 
         return file;
     }

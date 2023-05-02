@@ -40,7 +40,7 @@ public class StatsService {
         if (matches.size() == 0) {
             return 0;
         }
-        long wins = matches.stream().filter(match -> match.getWinner().getPublicId() == team.getPublicId()).count();
+        long wins = matches.stream().filter(match -> match.getWinner() != null).filter(match -> match.getWinner().getPublicId() == team.getPublicId()).count();
         return (double) wins / matches.size();
     }
 

@@ -14,4 +14,5 @@ import java.util.UUID;
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
     Report findFirstByOrderByCreatedDesc();
+
 }
