@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Builder
 public class TournamentStatsDto {
-    UUID id;
+    Long id;
     List<UUID> teamIds;
     Integer totalMatches;
     Integer totalGames;

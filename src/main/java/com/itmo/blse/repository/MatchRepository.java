@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface MatchRepository extends JpaRepository<Match, UUID> {
+public interface MatchRepository extends JpaRepository<Match, Long> {
 
     Match getMatchByPublicId(UUID publicId);
 

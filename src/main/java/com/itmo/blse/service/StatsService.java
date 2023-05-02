@@ -30,28 +30,40 @@ public class StatsService {
     @Autowired
     TournamentRepository tournamentRepository;
 
-    public double getWinRate(UUID teamId) throws ValidationError {
-        if (!teamRepository.existsById(teamId)) {
-            throw new ValidationError(List.of("Team " + teamId + " does not exist"));
-        }
-        Team team = teamRepository.getTeamByPublicId(teamId);
+    public double getGameWinRate(Team team) {
+
         List<Match> matches = matchRepository.getAllByTeam1OrTeam2(team, team);
         List<Game> games = gameRepository.getAllByMatchIn(matches);
         if (games.size() == 0) {
             return 0;
         }
-        long wins = games.stream().filter(game -> game.getWinner().getPublicId() == teamId).count();
+        long wins = games.stream().filter(game -> game.getWinner().getPublicId() == team.getPublicId()).count();
         return (double) wins / games.size();
     }
 
-    public double getWinProbability(UUID teamId1, UUID teamId2) throws ValidationError {
-        double rate1 = getWinRate(teamId1);
-        double rate2 = getWinRate(teamId2);
-        return rate1 / (rate1 + rate2);
+    public double getMatchWinRate(Team team) {
+
+        List<Match> matches = matchRepository.getAllByTeam1OrTeam2(team, team);
+        if (matches.size() == 0) {
+            return 0;
+        }
+        long wins = matches.stream().filter(match -> match.getWinner().getPublicId() == team.getPublicId()).count();
+        return (double) wins / matches.size();
     }
 
-    public Integer getTournamentGamesTotal(UUID tournamentId) {
-        Tournament tournament = tournamentRepository.findTournamentByPublicId(tournamentId);
+    public double getGameWinProbability(Team team1, Team team2) {
+        double rate1 = getGameWinRate(team1);
+        double rate2 = getGameWinRate(team2);
+        return rate1 == 0 && rate2 == 0 ? 0 : rate1 / (rate1 + rate2);
+    }
+
+    public double getMatchWinProbability(Team team1, Team team2) {
+        double rate1 = getMatchWinRate(team1);
+        double rate2 = getMatchWinRate(team2);
+        return rate1 == 0 && rate2 == 0 ? 0 : rate1 / (rate1 + rate2);
+    }
+
+    public Integer getTournamentGamesTotal(Tournament tournament) {
         List<Match> matches = tournament.getMatches();
         return gameRepository.getAllByMatchIn(matches).size();
     }

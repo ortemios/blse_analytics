@@ -18,7 +18,7 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column
+    @Column(nullable = false, unique = true)
     UUID publicId;
 
     @Column

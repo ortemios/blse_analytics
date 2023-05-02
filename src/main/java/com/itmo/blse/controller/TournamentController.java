@@ -29,17 +29,17 @@ public class TournamentController {
     StatsService statsService;
 
     @GetMapping("/{id}/stats/")
-    public ResponseEntity<?> stats(@PathVariable UUID id) {
+    public ResponseEntity<?> stats(@PathVariable Long id) {
         try {
-            Tournament tournament = tournamentRepository.findTournamentByPublicId(id);
-            if (tournament == null) {
-                throw new ValidationError(List.of("Tournament " + id + " does not exist"));
-            }
+            Tournament tournament = tournamentRepository.findById(id).orElseThrow(
+                    () -> new ValidationError(List.of("Tournament " + id + " does not exist"))
+            );
+
             return ResponseEntity.ok(
                     TournamentStatsDto.builder()
                             .id(id)
                             .teamIds(tournament.getTeams().stream().map(Team::getPublicId).toList())
-                            .totalGames(statsService.getTournamentGamesTotal(id))
+                            .totalGames(statsService.getTournamentGamesTotal(tournament))
                             .totalMatches(tournament.getMatches().size())
                             .build()
             );

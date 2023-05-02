@@ -3,7 +3,9 @@ package com.itmo.blse.controller;
 import com.itmo.blse.dto.WinProbabilityDto;
 import com.itmo.blse.dto.WinRatioDto;
 import com.itmo.blse.error.ValidationError;
+import com.itmo.blse.model.Team;
 import com.itmo.blse.service.StatsService;
+import com.itmo.blse.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +18,28 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(value = "/api/winProbability", produces = "application/json")
+@RequestMapping(value = "/api/win-probability", produces = "application/json")
 public class WinProbabilityController {
 
     @Autowired
     StatsService statsService;
 
+    @Autowired
+    TeamService teamService;
+
     @GetMapping("/")
-    public ResponseEntity<?> get(@RequestParam UUID team1Id, @RequestParam UUID team2Id) {
+    public ResponseEntity<?> get(@RequestParam Long team1Id, @RequestParam Long team2Id) {
         try {
-            double probability = statsService.getWinProbability(team1Id, team2Id);
-            return ResponseEntity.ok(WinProbabilityDto.builder().probability(probability));
+            Team team1 = teamService.getById(team1Id);
+            Team team2 = teamService.getById(team2Id);
+            double gameProbability = statsService.getGameWinProbability(team1, team2);
+            double matchProbability = statsService.getMatchWinProbability(team1, team2);
+            return ResponseEntity.ok(
+                    WinProbabilityDto.builder()
+                            .gameProbability(gameProbability)
+                            .matchProbability(matchProbability)
+                            .build()
+            );
         } catch (ValidationError err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }

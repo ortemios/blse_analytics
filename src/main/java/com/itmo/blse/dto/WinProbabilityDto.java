@@ -10,5 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class WinProbabilityDto {
-    Double probability;
+    Double gameProbability;
+    Double matchProbability;
+
 }

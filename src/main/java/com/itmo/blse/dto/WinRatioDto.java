@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class WinRatioDto {
-    Double winRatio;
+    Double gameWinRatio;
+    Double matchWinRatio;
 }

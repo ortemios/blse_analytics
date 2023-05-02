@@ -45,6 +45,7 @@ public class StreamingRouter {
     StreamingErrorRepository streamingErrorRepository;
 
     @JmsListener(destination = "${rabbitmq.queue}")
+    @Transactional
     public void onMessage(String message) throws JsonProcessingException, IllegalAccessException {
 
         ObjectMapper mapper = new ObjectMapper();

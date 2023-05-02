@@ -17,6 +17,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(nullable = false, unique = true)
     UUID publicId;
 
     @ManyToOne

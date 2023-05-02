@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface TournamentRepository extends JpaRepository<Tournament, UUID> {
+public interface TournamentRepository extends JpaRepository<Tournament, Long> {
 
     Tournament findTournamentByPublicId(UUID publicId);
 }
