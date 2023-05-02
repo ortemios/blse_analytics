@@ -28,6 +28,4 @@ public class StreamingError {
 
     @Column
     private String eventAction;
-
-
 }

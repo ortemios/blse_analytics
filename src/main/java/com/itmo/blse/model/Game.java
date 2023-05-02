@@ -14,10 +14,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Game {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    UUID publicId;
 
     @ManyToOne
     Match match;
+
     @ManyToOne
     Team winner;
 }

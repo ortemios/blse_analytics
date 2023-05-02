@@ -4,13 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 
 @Entity(name="analytics_tournament")
 @Getter
@@ -19,13 +17,18 @@ import java.util.UUID;
 public class Tournament {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column
+    UUID publicId;
+
     @Column
     String name;
-    @Column
-    Date startedAt;
+
     @OneToMany
     List<Team> teams;
+
     @OneToMany
     List<Match> matches;
 }

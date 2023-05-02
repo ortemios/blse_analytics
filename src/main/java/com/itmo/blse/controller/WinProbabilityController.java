@@ -1,5 +1,6 @@
 package com.itmo.blse.controller;
 
+import com.itmo.blse.dto.WinProbabilityDto;
 import com.itmo.blse.dto.WinRatioDto;
 import com.itmo.blse.error.ValidationError;
 import com.itmo.blse.service.StatsService;
@@ -15,17 +16,17 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(value = "/api/winrate", produces = "application/json")
-public class WinRateController {
+@RequestMapping(value = "/api/winProbability", produces = "application/json")
+public class WinProbabilityController {
 
     @Autowired
     StatsService statsService;
 
     @GetMapping("/")
-    public ResponseEntity<?> get(@RequestParam UUID teamId) {
+    public ResponseEntity<?> get(@RequestParam UUID team1Id, @RequestParam UUID team2Id) {
         try {
-            double winRatio = statsService.getWinRate(teamId);
-            return ResponseEntity.ok(WinRatioDto.builder().winRatio(winRatio));
+            double probability = statsService.getWinProbability(team1Id, team2Id);
+            return ResponseEntity.ok(WinProbabilityDto.builder().probability(probability));
         } catch (ValidationError err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
         }

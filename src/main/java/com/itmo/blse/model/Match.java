@@ -14,7 +14,10 @@ import java.util.UUID;
 public class Match {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    UUID publicId;
 
     @ManyToOne
     Team team1;

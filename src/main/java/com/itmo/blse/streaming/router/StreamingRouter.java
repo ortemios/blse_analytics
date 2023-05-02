@@ -37,7 +37,7 @@ public class StreamingRouter {
     GameDroppedHandler gameDroppedHandler;
 
     @Autowired
-    @Handler(MatchUpdatedHandler.class)
+    @Handler(MatchUpdatedEvent.class)
     MatchUpdatedHandler matchUpdatedHandler;
 
 

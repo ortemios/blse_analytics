@@ -18,7 +18,7 @@ public class TeamCreatedHandler implements EventHandler<TeamCreatedEvent> {
     public void handle(TeamCreatedEvent event) {
         TeamCreatedModel data = event.getData();
         Team team = new Team();
-        team.setId(data.getPublicId());
+        team.setPublicId(data.getPublicId());
         team.setName(data.getName());
         teamRepository.save(team);
     }

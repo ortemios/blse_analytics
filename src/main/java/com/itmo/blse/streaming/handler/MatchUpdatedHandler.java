@@ -22,17 +22,19 @@ public class MatchUpdatedHandler implements EventHandler<MatchUpdatedEvent> {
 
     @Override
     public void handle(MatchUpdatedEvent event) {
+        System.out.println("MatchUpdated");
         MatchUpdatedModel data = event.getData();
         UUID team1Id = data.getTeam1PublicId();
         UUID team2Id = data.getTeam2PublicId();
         UUID winnerId = data.getWinnerPublicId();
-        Team team1 = team1Id != null ? teamRepository.getReferenceById(data.getTeam1PublicId()) : null;
-        Team team2 = team2Id != null ? teamRepository.getReferenceById(data.getTeam2PublicId()) : null;
-        Team winner = winnerId != null ? teamRepository.getTeamById(winnerId) : null;
-        Match match = matchRepository.getMatchById(data.getPublicId());
+        Team team1 = team1Id != null ? teamRepository.getTeamByPublicId(team1Id) : null;
+        Team team2 = team2Id != null ? teamRepository.getTeamByPublicId(team2Id) : null;
+        Team winner = winnerId != null ? teamRepository.getTeamByPublicId(winnerId) : null;
+        Match match = matchRepository.getMatchByPublicId(data.getPublicId());
         match.setTeam1(team1);
         match.setTeam2(team2);
         match.setWinner(winner);
         matchRepository.save(match);
+        System.out.println("MatchUpdated End ");
     }
 }

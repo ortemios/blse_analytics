@@ -16,6 +16,6 @@ public class GameDroppedHandler implements EventHandler<GameDroppedEvent> {
 
     @Override
     public void handle(GameDroppedEvent event) throws Throwable{
-        gameRepository.deleteById(event.getData().getPublicId());
+        gameRepository.deleteByPublicId(event.getData().getPublicId());
     }
 }

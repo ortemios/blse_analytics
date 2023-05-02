@@ -29,10 +29,10 @@ public class GamePlayedHandler implements EventHandler<GamePlayedEvent> {
         GamePlayedModel model = event.getData();
         UUID matchId = model.getMatchPublicId();
         UUID winnerId = model.getWinnerPublicId();
-        Match match = matchId != null ? matchRepository.getMatchById(model.getMatchPublicId()) : null;
-        Team winner = winnerId != null ? teamRepository.getTeamById(model.getWinnerPublicId()) : null;
+        Match match = matchId != null ? matchRepository.getMatchByPublicId(model.getMatchPublicId()) : null;
+        Team winner = winnerId != null ? teamRepository.getTeamByPublicId(model.getWinnerPublicId()) : null;
         Game game = new Game();
-        game.setId(event.getData().getPublicId());
+        game.setPublicId(event.getData().getPublicId());
         game.setMatch(match);
         game.setWinner(winner);
         gameRepository.save(game);

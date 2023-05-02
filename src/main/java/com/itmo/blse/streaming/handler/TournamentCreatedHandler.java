@@ -33,21 +33,21 @@ public class TournamentCreatedHandler implements EventHandler<TournamentCreatedE
         for (MatchCreatedModel model : event.getData().getMatches()) {
             UUID team1Id = model.getTeam1PublicId();
             UUID team2Id = model.getTeam2PublicId();
-            Team team1 = team1Id != null ? teamRepository.getReferenceById(model.getTeam1PublicId()) : null;
-            Team team2 = team2Id != null ? teamRepository.getReferenceById(model.getTeam2PublicId()) : null;
+            Team team1 = team1Id != null ? teamRepository.getTeamByPublicId(team1Id) : null;
+            Team team2 = team2Id != null ? teamRepository.getTeamByPublicId(team2Id) : null;
             Match match = new Match();
-            match.setId(model.getPublicId());
+            match.setPublicId(model.getPublicId());
             match.setTeam1(team1);
             match.setTeam2(team2);
             matches.add(matchRepository.save(match));
         }
         TournamentCreatedModel data = event.getData();
         Tournament tournament = new Tournament();
-        tournament.setId(data.getPublicId());
+        tournament.setPublicId(data.getPublicId());
         tournament.setName(data.getName());
-        tournament.setStartedAt(data.getStartedAt());
         tournament.setMatches(matches);
-        tournament.setTeams(teamRepository.findAllById(data.getTeams()));
-        tournamentRepository.save(tournament);
+        tournament.setTeams(teamRepository.findAllByPublicIdIn(data.getTeams()));
+        Tournament res = tournamentRepository.save(tournament);
+        System.out.println(res.toString());
     }
 }
