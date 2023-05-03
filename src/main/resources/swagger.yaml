@@ -8,75 +8,54 @@ info:
 host: "localhost:8000"
 basePath: "/api"
 
-securityDefinitions:
-  basicAuth:
-    type: basic
 
 schemes:
   - "http"
 paths:
-  /auth/register/:
-    post:
-      description: "Register a new account"
-      produces:
-        - "application/json"
 
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: "#/definitions/UserRegistrationRequest"
-
-      responses:
-        "201":
-          description: "Created"
-          schema:
-            $ref: "#/definitions/UserDto"
-
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-
-
-  /user/me/:
+  /reports/:
     get:
-      security:
-        - basicAuth: [ ]
-      description: "Get self user profile info"
+      description: "Get reports list"
       produces:
         - "application/json"
+
       responses:
         "200":
-          description: "Ok"
+          description: "ok"
           schema:
-            $ref: "#/definitions/UserDto"
-        "401":
-          description: "Unauthorized"
+            type: "array"
+            items:
+              $ref: "#/definitions/ReportDto"
 
-  /user/teams/:
+  /teams/:
     get:
-      security:
-        - basicAuth: [ ]
       description: "Get teams list"
       produces:
         - "application/json"
 
       responses:
         "200":
-          description: "user found"
+          description: "ok"
           schema:
             type: "array"
             items:
               $ref: "#/definitions/TeamDto"
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
 
-  /user/teams/{id}/:
+  /tournaments/stats/:
+    get:
+      description: "Get tournaments stats"
+      produces:
+        - "application/json"
+
+      responses:
+        "200":
+          description: "ok"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TournamentStatsDto"
+
+  /win-probability/:
     get:
       security:
         - basicAuth: [ ]
@@ -84,206 +63,47 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: id
-          in: path
-          type: integer
-          required: true
-
-      responses:
-        "200":
-          description: "user found"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/TeamDto"
-        "401":
-          description: "Unauthorized"
-
-  /user/tournaments/:
-    get:
-      security:
-        - basicAuth: [ ]
-      description: "Get all tournaments"
-      produces:
-        - "application/json"
-
-      responses:
-        "200":
-          description: "List of tournaments"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/ListTournamentDto"
-        "401":
-          description: "Unauthorized"
-
-  /moderator/tournaments/:
-    post:
-      security:
-        - basicAuth: [ ]
-      description: "Create new tournament. 1 <= maxGames, judges.length <= 10, maxGames % 2 == 1"
-      produces:
-        - "application/json"
-
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: "#/definitions/CreateTournamentDto"
-
-      responses:
-        "201":
-          description: "Created"
-          schema:
-            $ref: "#/definitions/RetrieveTournamentDto"
-
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
-
-  /judge/games/{game-id}/approve/:
-    post:
-      security:
-        - basicAuth: [ ]
-      description: "Approve game"
-      produces:
-        - "application/json"
-
-      parameters:
-        - name: game-id
-          in: path
-          type: integer
-          required: true
-
-
-      responses:
-        "201":
-          description: "Created"
-          schema:
-            $ref: "#/definitions/GameDto"
-
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
-
-  /judge/games/{game-id}/disapprove/:
-    post:
-      security:
-        - basicAuth: [ ]
-      description: "Disapprove game"
-      produces:
-        - "application/json"
-
-      parameters:
-        - name: game-id
-          in: path
-          type: integer
-          required: true
-
-
-      responses:
-        "201":
-          description: "Created"
-          schema:
-            $ref: "#/definitions/GameDto"
-
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
-
-  /moderator/matches/{match-id}/play-game/:
-    post:
-      security:
-        - basicAuth: [ ]
-      description: "Add game to match"
-      produces:
-        - "application/json"
-
-      parameters:
-        - name: match-id
-          in: path
-          type: integer
-          required: true
-
-        - name: winnerId
+        - name: team1Id
           in: query
           type: integer
           required: true
 
-
-      responses:
-        "201":
-          description: "Created"
-          schema:
-            $ref: "#/definitions/MatchDto"
-
-        "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
-
-  /moderator/matches/{match-id}/drop/:
-    post:
-      security:
-        - basicAuth: [ ]
-      description: "Drop match games"
-      produces:
-        - "application/json"
-
-      parameters:
-        - name: match-id
-          in: path
+        - name: team2Id
+          in: query
           type: integer
           required: true
 
       responses:
         "200":
-          description: "Ok"
+          description: "Probability of win of 1st team"
           schema:
-            $ref: "#/definitions/RetrieveTournamentDto"
-
+            $ref: "#/definitions/WinProbabilityDto"
         "400":
-          description: "Validation Error"
-          schema:
-            type: string
-        "401":
-          description: "Unauthorized"
+          description: "Bad request"
 
+  /win-rate/:
+    get:
+      security:
+        - basicAuth: [ ]
+      description: "Get team by id"
+      produces:
+        - "application/json"
+      parameters:
+        - name: teamId
+          in: query
+          type: integer
+          required: true
+
+      responses:
+        "200":
+          description: "Team win ratio"
+          schema:
+            $ref: "#/definitions/WinRatioDto"
+        "400":
+          description: "Bad request"
 
 
 definitions:
-
-  UserRegistrationRequest:
-    type: "object"
-    properties:
-      username:
-        type: "string"
-      password:
-        type: "string"
-      roles:
-        type: "array"
-        items:
-          type: "string"
-          enum: [ "USER", "MODERATOR", "JUDGE" ]
-
-  UserDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      username:
-        type: "string"
 
 
   TeamDto:
@@ -294,113 +114,40 @@ definitions:
       name:
         type: "string"
 
-  ListTournamentDto:
+  ReportDto:
     type: "object"
     properties:
       id:
         type: "integer"
-      name:
+      created:
         type: "string"
-      startDate:
-        type: "string"
-      approvalRatio:
-        type: "number"
-      maxGames:
-        type: "integer"
-      winner:
-        $ref: "#/definitions/TeamDto"
 
-
-  GameVoteDto:
+  TournamentStatsDto:
     type: "object"
     properties:
       id:
         type: "integer"
-      judgeId:
-        type: "integer"
-      isApproved:
-        type: "boolean"
-
-  GameDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      winnerId:
-        type: "integer"
-      gameVotes:
-        type: "array"
-        items:
-          $ref: "#/definitions/GameVoteDto"
-
-  MatchDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      team1Id:
-        type: "integer"
-      team2Id:
-        type: "integer"
-      nextMatchId:
-        type: "integer"
-      games:
-        type: "array"
-        items:
-          $ref: "#/definitions/GameDto"
-
-
-  RetrieveTournamentDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      winner:
-        $ref: "#/definitions/TeamDto"
-      startDate:
-        type: "string"
-      approvalRatio:
-        type: "number"
-      maxGames:
-        type: "integer"
-      judges:
-        type: "array"
-        items:
-          $ref: "#/definitions/UserDto"
-      teams:
-        type: "array"
-        items:
-          $ref: "#/definitions/TeamDto"
-      matches:
-        type: "array"
-        items:
-          $ref: "#/definitions/MatchDto"
-
-  CreateTournamentDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-      startDate:
-        type: "string"
-      approvalRatio:
-        type: "number"
-      maxGames:
-        type: "integer"
-      judgesIds:
-        type: "array"
-        items:
-          type: "integer"
       teamsIds:
         type: "array"
         items:
-          type: "integer"
+            type: "integer"
+      totalMatches:
+        type: "integer"
+      totalGames:
+        type: "integer"
 
+  WinProbabilityDto:
+    type: "object"
+    properties:
+      gameProbability:
+        type: "number"
+      matchProbability:
+        type: "number"
 
-
-
-
+  WinRatioDto:
+    type: "object"
+    properties:
+      gameWinRatio:
+        type: "number"
+      matchWinRatio:
+        type: "number"

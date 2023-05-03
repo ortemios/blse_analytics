@@ -1,6 +1,7 @@
 package com.itmo.blse.controller;
 
 
+import com.itmo.blse.dto.TeamDto;
 import com.itmo.blse.dto.TournamentStatsDto;
 import com.itmo.blse.error.ValidationError;
 import com.itmo.blse.model.Team;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/teams", produces = "application/json")
@@ -28,7 +30,9 @@ public class TeamController {
     TeamService teamService;
 
     @GetMapping("/")
-    public List<Team> getTeams() {
-        return teamService.listTeams();
+    public List<TeamDto> getTeams() {
+        return teamService.listTeams().stream().map(
+                t -> new TeamDto(t.getId(), t.getName())
+        ).collect(Collectors.toList());
     }
 }

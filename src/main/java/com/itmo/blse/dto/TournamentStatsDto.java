@@ -13,8 +13,7 @@ import java.util.UUID;
 @Builder
 public class TournamentStatsDto {
     Long id;
-    List<UUID> teamIds;
+    List<Long> teamIds;
     Integer totalMatches;
     Integer totalGames;
-    UUID winnerPublicId;
 }

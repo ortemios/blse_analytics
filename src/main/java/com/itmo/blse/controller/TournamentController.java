@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/tournaments", produces = "application/json")
@@ -28,23 +29,18 @@ public class TournamentController {
     @Autowired
     StatsService statsService;
 
-    @GetMapping("/{id}/stats/")
-    public ResponseEntity<?> stats(@PathVariable Long id) {
-        try {
-            Tournament tournament = tournamentRepository.findById(id).orElseThrow(
-                    () -> new ValidationError(List.of("Tournament " + id + " does not exist"))
-            );
+    @GetMapping("/stats/")
+    public ResponseEntity<?> stats() {
+        List<TournamentStatsDto> tournaments = tournamentRepository.findAll()
+                .stream().map(
+                        t -> TournamentStatsDto.builder()
+                                .id(t.getId())
+                                .teamIds(t.getTeams().stream().map(Team::getId).toList())
+                                .totalGames(statsService.getTournamentGamesTotal(t))
+                                .totalMatches(t.getMatches().size())
+                                .build()
+                ).toList();
 
-            return ResponseEntity.ok(
-                    TournamentStatsDto.builder()
-                            .id(id)
-                            .teamIds(tournament.getTeams().stream().map(Team::getPublicId).toList())
-                            .totalGames(statsService.getTournamentGamesTotal(tournament))
-                            .totalMatches(tournament.getMatches().size())
-                            .build()
-            );
-        } catch (ValidationError err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getErrors());
-        }
+        return ResponseEntity.ok(tournaments);
     }
 }
