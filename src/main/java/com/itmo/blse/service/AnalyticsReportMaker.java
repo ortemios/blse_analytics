@@ -30,7 +30,7 @@ public class AnalyticsReportMaker {
     ReportRepository reportRepository;
 
     @Transactional
-    public void makeReport(){
+    public void makeReport() {
         try{
             File reportFile = makeReportFile();
             Report report = Report.builder()
@@ -41,7 +41,7 @@ public class AnalyticsReportMaker {
         catch (IOException ex){
             log.error("Report was not created due to IOException", ex);
         }
-    };
+    }
 
     private File makeReportFile() throws IOException{
         File file = new File(String.format("reports/report-%s.csv", LocalDateTime.now()));

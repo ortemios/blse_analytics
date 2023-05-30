@@ -62,14 +62,13 @@ public class StreamingRouter {
             handleError(e, event, message);
         }
 
-
     }
 
     private void handleError(Throwable error, Event event, String message){
         StreamingError.StreamingErrorBuilder builder = StreamingError.builder()
                 .errorText(error.getMessage())
                 .message(message);
-        if (event != null){
+        if (event != null) {
             builder.eventAction(event.getAction()).eventId(event.getEventId());
         }
         streamingErrorRepository.save(builder.build());
